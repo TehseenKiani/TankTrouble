@@ -1,0 +1,40 @@
+#touchTools,#touchControlZone{display:none}
+body.touch-mode{overscroll-behavior:none}
+body.touch-mode #header{height:52px!important;padding:0!important}
+body.touch-mode #mapThemeControl{left:6px!important;font-size:0!important}
+body.touch-mode #mapTheme{width:96px!important;font-size:12px!important;height:32px}
+body.touch-mode #roomButton{left:110px!important;font-size:14px!important;padding:6px 10px!important}
+body.touch-mode .sound,body.touch-mode .music,body.touch-mode .settings{width:26px!important;height:30px!important;top:10px!important;background-size:contain!important}
+body.touch-mode .sound{right:70px!important}body.touch-mode .music{right:38px!important}body.touch-mode .settings{right:6px!important}
+body.touch-mode #contentWrapper{height:calc(100dvh - 52px)!important;padding:4px max(4px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left))!important;box-sizing:border-box!important}
+body.touch-mode #content{max-width:none!important;width:100%!important;height:100%!important}
+body.touch-mode #mainContent{display:grid!important;grid-template-rows:34px minmax(0,1fr) var(--touch-control-row,144px) clamp(62px,9dvh,78px);grid-template-columns:minmax(0,1fr);height:100%!important;position:relative;gap:2px}
+body.touch-mode #game,body.touch-mode #playerPanel{width:100%!important;height:100%!important;min-height:0;margin:0!important;display:flex!important;align-items:center;justify-content:center;overflow:hidden}
+body.touch-mode #game{grid-row:2}body.touch-mode #playerPanel{grid-row:4}
+body.touch-mode #touchTools{display:flex;grid-row:1;align-items:center;gap:8px;z-index:5;color:#cbd5e1;font:12px system-ui}
+#touchTools button,.touchSettings button{background:#245de0;color:white;border:1px solid #618aeb;border-radius:8px;padding:6px 10px;font:600 13px system-ui;min-height:30px}
+#touchTools button[hidden]{display:none}
+body.touch-mode #touchControlZone{display:block;grid-row:3;position:relative;pointer-events:none;min-height:0;z-index:4}
+#touchJoystick,#touchFire{position:absolute;transform:translate(-50%,-50%);box-sizing:border-box;border-radius:50%;touch-action:none;user-select:none;-webkit-user-select:none;pointer-events:auto}
+#touchJoystick{background:radial-gradient(circle,#26374bba,#121d2bc9);border:3px solid #8aafd4;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px #0008}
+#touchJoystick span{width:42%;height:42%;border-radius:50%;background:linear-gradient(#c3ddf4,#638fb7);border:2px solid #d8eaff;pointer-events:none;will-change:transform}
+#touchFire{color:white;font:800 16px system-ui;background:radial-gradient(circle at 35% 30%,#ff745f,#b8272f);border:3px solid #ffb2a7;box-shadow:0 3px 12px #0008}
+#touchFire.pressed{background:#ff9677;box-shadow:0 0 20px #ff7652}
+body.touch-editing #touchControlZone{outline:2px dashed #75aeff;outline-offset:-3px;background:#5088cc12}
+body.touch-editing #touchJoystick,body.touch-editing #touchFire{outline:3px dashed white;cursor:move}
+.touchSettings{background:#19222e;color:#e2e8f0;border:1px solid #63748b;border-radius:14px;width:min(360px,85vw);max-height:80dvh;overflow:auto;padding:18px;font:14px system-ui}
+.touchSettings::backdrop{background:#0009}.touchSettings h2{margin:0 0 6px}.touchSettings p{color:#a6b8d0}.touchSettings label{display:block;margin:12px 0}.touchSettings input{display:block;width:100%;min-height:28px;accent-color:#669bff}.touchSettings output{float:right}.touchSettings button{margin:5px}.touchSettings select{max-width:100%;padding:6px}
+body.touch-landscape #header{display:none!important}
+body.touch-landscape #contentWrapper{height:100dvh!important}
+body.touch-landscape #mainContent{grid-template-rows:32px minmax(0,1fr)}
+body.touch-landscape #playerPanel{position:absolute!important;top:0;left:auto!important;right:46px!important;width:min(60vw,520px)!important;height:58px!important;z-index:5}
+body.touch-landscape #touchControlZone{position:absolute;inset:34px 0 0;grid-row:auto}
+@media(prefers-reduced-motion:reduce){#touchJoystick span{will-change:auto}}
+body.touch-mode .sound img,body.touch-mode .music img,body.touch-mode .settings img{width:26px!important;height:30px!important;object-fit:contain}
+body.touch-mode .sound,body.touch-mode .music,body.touch-mode .settings{margin-top:0!important;transform:none!important;top:10px!important}
+#touchTools [data-menu]{display:none}
+body.touch-landscape #touchTools [data-menu]{display:block}
+body.touch-landscape.touch-menu-open #header{display:flex!important}
+body.touch-landscape.touch-menu-open #contentWrapper{height:calc(100dvh - 52px)!important}
+body.touch-mode #touchControlZone{align-self:stretch;justify-self:stretch;height:100%;width:100%}
+body.touch-landscape #touchControlZone{height:auto;width:auto}

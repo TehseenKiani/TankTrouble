@@ -1,0 +1,17 @@
+{
+  "name": "tanktrouble",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Tank Trouble local multiplayer server and client",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test room-inputs.test.mjs room-server.test.mjs canvas-layout.test.mjs mobile-controls.test.mjs"
+  },
+  "dependencies": {
+    "ws": "8.21.0"
+  }
+}

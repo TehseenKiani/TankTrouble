@@ -1,0 +1,10 @@
+import {TouchControls} from './mobilecontrols.js';
+import {Inputs} from './inputs.js';
+import {InputState} from './tt/inputstate.js';
+import {GameSession} from './gamesession.js';
+import {Users} from './users.js';
+import {ResizeManager} from './resizemanager.js';
+import {UIPlayerPanel} from './tt/ui/playerpanel/uiplayerpanel.js';
+import {UIConstants} from './tt/ui/uiconstants.js';
+import {updateCanvasViewport,GAME_VIEWPORT,PLAYER_PANEL_VIEWPORT} from './tt/ui/canvaslayout.js';
+export const initialiseMobileControls=()=>TouchControls.init({Inputs,InputState,GameSession,Users,ResizeManager,UIPlayerPanel,UIConstants,updateCanvasViewport,GAME_VIEWPORT,PLAYER_PANEL_VIEWPORT});

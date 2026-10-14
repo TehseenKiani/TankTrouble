@@ -1,0 +1,67 @@
+import { Garage } from "./garage.js";
+import { Images } from "../../../images.js";
+import { Log } from "../../log.js";
+import { UIConstants } from "../uiconstants.js";
+
+/*
+ * Phaser fills in some properties:
+ *  - game - a reference to the Phaser.Game
+ *  - load - a reference to the Phaser.Loader
+ *  - scale - a reference to the Phaser.ScaleManager
+ *  - state - a reference to the Phaser.StateManager
+*/
+
+//setting game configuration and loading the assets for the loading screen
+class UIBootState {
+    log = null;
+
+    preload() {
+        //assets we'll use in the loading screen
+        this.load.image("preloadbar", Images.url("lobby/waiting.png"));
+        this.load.image("waitingicon", Images.url("lobby/waiting.png"));
+    }
+
+    create() {
+        // Create log.
+        this.log = new Log("UIBootState");
+
+        // Generally, we do not want to prevent default actions such as touch scrolling.
+        this.input.touch.preventDefault = false;
+
+        // We do not want the page to scroll to top on every scale refresh.
+        this.scale.compatibility.scrollTo = false;
+
+        // Prevent right click menu.
+        this.game.canvas.oncontextmenu = event => { event.preventDefault(); };
+
+        // Do not pause the sounds when losing focus.
+        this.game.stage.disableVisibilityChange = true;
+
+        // Set world size.
+        this.world.bounds = new Phaser.Rectangle(0, 0, this.game.width, this.game.height);
+
+        // Update camera bounds.
+        this.camera.setBoundsToWorld();
+
+        // Loading screen will have a white background.
+        this.stage.backgroundColor = "#fff";
+
+        // Set scale mode to user scale.
+        this.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+        this.scale.setUserScale(1.0 / UIConstants.CANVAS_PIXEL_RATIO, 1.0 / UIConstants.CANVAS_PIXEL_RATIO, 0, 0);
+        this.scale.setGameSize(this.game.width * UIConstants.CANVAS_PIXEL_RATIO, this.game.height * UIConstants.CANVAS_PIXEL_RATIO);
+
+        // Setup resize callback to resize the game whenever the parent bounds change.
+        this.scale.setResizeCallback((scale, parentBounds) => {
+            if (Math.abs((parentBounds.width * UIConstants.CANVAS_PIXEL_RATIO) - this.game.width) >= 0.01 ||
+                Math.abs((parentBounds.height * UIConstants.CANVAS_PIXEL_RATIO) - this.game.height) >= 0.01) {
+                this.log.debug("RESIZE CANVAS!");
+                this.scale.setGameSize(parentBounds.width * UIConstants.CANVAS_PIXEL_RATIO, parentBounds.height * UIConstants.CANVAS_PIXEL_RATIO);
+            }
+        }, this);
+
+        this.state.start("Preload");
+    }
+}
+
+Garage.UIBootState = UIBootState;

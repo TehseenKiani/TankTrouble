@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="version" content="RELEASE-2026-10-09-01">
+
+    <title>TankTrouble - Local Edition</title>
+    <meta name="description" content="Clean offline & LAN TankTrouble game.">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="mask-icon" href="/favicon.svg" color="#427fff">
+
+    <link rel="preload" as="image" href="/build/assets/images/header/background-47e99c03.avif" fetchpriority="high">
+    <link rel="preload" as="font" type="font/woff2" href="/build/assets/fonts/TankTrouble-ecfa1a92.woff2" crossorigin>
+    <link rel="stylesheet" type="text/css" href="/build/css/index-CH4QDKMA.css">
+
+    <style>
+        /* Modern Clean Gaming UI */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-color: #111317 !important;
+            background-image: radial-gradient(circle at 50% 30%, #1a1e26 0%, #0d0f12 100%) !important;
+            color: #e0e6ed !important;
+            overflow: hidden !important;
+            min-height: 0 !important;
+            font-family: Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            touch-action: manipulation !important;
+        }
+
+        /* Hide all banners, ads, teasers, chat & unwanted tabs */
+        #chat,
+        .status.button,
+        #navigation .tab:not(#gameTab),
+        #navigation .shadow,
+        #leftBanner,
+        #rightBanner,
+        #topBanner,
+        .verticalAdSlot,
+        #secondaryContent,
+        #tertiaryContent,
+        #version,
+        .rankChange,
+        #scrapyardSnippet,
+        #wallOfFameSnippet,
+        #messagesSnippet,
+        [command*="chat"],
+        [command*="wall-of-fame"],
+        [command*="messages"] {
+            display: none !important;
+        }
+
+        /* Clean Top Navigation Bar */
+        #header {
+            height: 60px !important;
+            background: linear-gradient(180deg, #1f242d 0%, #15181e 100%) !important;
+            border-bottom: 2px solid #28303d !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45) !important;
+            position: relative !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 0 16px !important;
+            box-sizing: border-box !important;
+        }
+
+        #navigation {
+            height: 60px !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+
+        #navigation #gameTab {
+            display: none !important;
+            justify-content: center !important;
+            align-items: center !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+        }
+
+        #navigation #gameTab img {
+            height: 48px !important;
+            width: auto !important;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) !important;
+        }
+
+        .localPlayerEditor { width: min(320px, calc(100vw - 48px)); padding: 24px; border: 1px solid #596579; border-radius: 12px; background: #202630; color: #fff; font: 16px Arial; }
+        .localPlayerEditor::backdrop { background: rgba(0,0,0,.65); }
+        .localPlayerEditor h2 { margin: 0 0 20px; }
+        .localPlayerEditor label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0; }
+        .localPlayerEditor input[type=text] { width: 180px; padding: 8px; border: 1px solid #596579; border-radius: 5px; background: #111820; color: white; user-select: text !important; }
+        .localPlayerEditor input[type=color] { width: 64px; height: 36px; cursor: pointer; }
+        .localPlayerEditor button { margin: 12px 10px 0 0; padding: 10px 20px; border: 0; border-radius: 6px; background: #245de0; color: white; cursor: pointer; }
+        #roomButton { position: absolute; left: 270px; padding: 7px 16px; background: #245de0; color: white; border: 0; border-radius: 6px; cursor: pointer; }
+        .roomDialog { width: min(440px, calc(100vw - 64px)); padding: 24px; background: #202630; color: white; border: 1px solid #596579; border-radius: 12px; font: 15px Arial; }
+        .roomDialog::backdrop { background: rgba(0,0,0,.7); }
+        .roomDialog h2 { margin: 0 0 12px; }
+        .roomDialog p { line-height: 1.5; }
+        .roomDialog button { padding: 10px 14px; margin: 6px 8px 6px 0; background: #245de0; color: white; border: 0; border-radius: 6px; cursor: pointer; }
+        .roomDialog button:disabled { opacity: .45; cursor: default; }
+        .roomDialog input { width: 85px; background: #111820; border: 1px solid #596579; color: white; padding: 8px; border-radius: 5px; user-select: text !important; text-transform: uppercase; }
+        .roomDialog li { list-style: none; padding: 5px 10px; margin: 6px 0; }
+        .roomDialog ul { padding: 0; max-height: 30vh; overflow: auto; }
+        @media (max-width: 600px) {
+            #mapThemeControl { left: 8px; font-size: 0; }
+            #mapTheme { font-size: 12px; width: 128px; }
+            #roomButton { left: 145px; padding: 7px 10px; max-width: 105px; }
+        }
+        /* Audio & Settings Buttons */
+        #mapThemeControl {
+            position: absolute;
+            left: 16px;
+            color: #e0e6ed;
+            font-size: 14px;
+        }
+        #mapTheme {
+            background: #202630;
+            color: #fff;
+            border: 1px solid #596579;
+            border-radius: 6px;
+            padding: 6px;
+            font: inherit;
+        }
+
+        .sound, .music, .settings {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            cursor: pointer !important;
+            transition: transform 0.15s ease, opacity 0.15s ease !important;
+            opacity: 0.85 !important;
+        }
+
+        .sound:hover, .music:hover, .settings:hover {
+            transform: translateY(-50%) scale(1.1) !important;
+            opacity: 1 !important;
+        }
+
+        .sound { right: 86px !important; }
+        .music { right: 50px !important; }
+        .settings { right: 14px !important; }
+
+        /* Centered Game Viewport */
+        #contentWrapper {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: calc(100vh - 60px) !important;
+            height: calc(100dvh - 60px) !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 12px 10px !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+        }
+
+        #content {
+            width: 100% !important;
+            max-width: 1040px !important;
+            height: 100% !important;
+            min-height: 0 !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+        }
+
+        #mainContent {
+            width: 100% !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            box-sizing: border-box !important;
+        }
+
+        #game {
+            position: relative !important;
+            left: 0 !important;
+            top: 0 !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        #game canvas {
+            border-radius: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        #playerPanel {
+            position: relative !important;
+            left: 0 !important;
+            padding: 0 !important;
+            margin: 8px auto 0 auto !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        #playerPanel canvas {
+            border-radius: 8px !important;
+        }
+
+        /* Mobile Adaptations */
+        @media (max-width: 768px) {
+            #header {
+                height: 48px !important;
+                padding: 0 10px !important;
+            }
+            #navigation {
+                height: 48px !important;
+            }
+            #navigation #gameTab img {
+                height: 36px !important;
+            }
+            .sound { right: 72px !important; }
+            .music { right: 42px !important; }
+            .settings { right: 10px !important; }
+            #contentWrapper {
+                height: calc(100vh - 48px) !important;
+                height: calc(100dvh - 48px) !important;
+                padding: 4px !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/mobile-controls.css?v=13">
+
+    <script>
+        window.adsbygoogle = { push: function(){} };
+        window.adBreak = window.adConfig = function(){};
+    </script>
+
+    <script defer src="/build/js/libraries-843e34fa.js?v=3"></script>
+    <script type="module" src="/build/js/index-4YALVKHK.js?v=13"></script>
+</head>
+<body>
+<script>
+    var g_users = [];
+    var g_guests = [];
+    var g_initialHighestGmLevel = null;
+    var g_initialHighestGmUser = "";
+    var g_initialAdminRoles = [];
+    var g_mpServers = {"id":["local-lan"],"name":["Local LAN"],"url":[(location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host]};
+    var g_initialTab = "game";
+    var g_initialData = {};
+    var g_initialPremiumPresent = true;
+    var g_initialAchievementUnlocks = [];
+    var PhaserGlobal = {};
+    var g_stripeKey = "pk_live_Z8QppPLG5fYrRdSyJowz5CNb";
+    var g_clientId = "ddf1efc94d9debc6582a5dd7615ec69de35f575f0bbae6c4bd36314d5ba9af9f6acf482a944bc";
+    var g_admissionToken = "eyJpYXQiOjE3OTE5NjkzMjIsImV4cCI6MTc5MTk3MDIyMn0.ee94cc075e441d132fb5297985ab314d2dee026242cccb580388e8c1def4b688";
+    var g_admissionTokenExpiresAt = 1791970222;
+    var g_version = "RELEASE-2026-10-09-01";
+</script>
+
+<div id="header">
+    <div id="navigation">
+        <a id="gameTab" class="tab managedNavigation selected" href="/game" tabindex="-1">
+        </a>
+    </div>
+</div>
+
+<div id="contentWrapper">
+    <div id="content">
+        <div id="mainContent" role="main">
+            <div id="game"></div>
+            <div id="playerPanel"></div>
+        </div>
+
+        <!-- Hidden non-rendered elements to keep legacy selector queries safe -->
+        <div style="display: none !important;" aria-hidden="true">
+            <div id="secondaryContent">
+                <div id="scrapyardSnippet"><div class="content"></div></div>
+            </div>
+            <div id="tertiaryContent">
+                <div id="wallOfFameSnippet"></div>
+                <div id="messagesSnippet"><div class="content"></div></div>
+            </div>
+            <div id="topBanner"></div>
+            <div id="leftBanner"></div>
+            <div id="rightBanner"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
